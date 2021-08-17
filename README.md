@@ -1,6 +1,5 @@
 ﻿# busca-recursiva-delphi
 
-
 ## Usage
 
 ```
@@ -12,8 +11,7 @@ begin
   if diretorio = '' then
   begin
     exit;
-  end;
-  StatusBar1.Panels[2].Text := 'Local: ('+diretorio+')';
+  end;  
   Ret := FindFirst(diretorio + '\*.*', faAnyFile or faArchive or
     faDirectory, F);
   try
