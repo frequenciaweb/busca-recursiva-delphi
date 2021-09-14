@@ -17,14 +17,18 @@ type
     edtDiretorio: TEdit;
     dsArquivos: TDataSource;
     cdsArquivos: TClientDataSet;
-    cdsArquivosDiretorio: TStringField;
-    cdsArquivosArquivo: TStringField;
     cbTipoArquivo: TComboBox;
     Panel2: TPanel;
     btnCancelar: TButton;
     btnBuscar: TButton;
     btnExportar: TButton;
     SaveDialog1: TSaveDialog;
+    Panel3: TPanel;
+    edtDiretorioMoni: TEdit;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    cdsArquivosDiretorio: TStringField;
+    cdsArquivosArquivo: TStringField;
     procedure btnBuscarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnExportarClick(Sender: TObject);
@@ -32,8 +36,9 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure Recursiva(diretorio, tipoArquivo: string);
+    procedure Recursiva(diretorio, tipoArquivo, diretorioMonitorado: string);
     procedure ExportarParaTexto(DataSet: TDataSet; Arq: string);
+    procedure TratarArquivo(f: TSearchRec; diretorio: string);
   end;
 
 var
@@ -57,7 +62,7 @@ begin
   procedure
   begin
     Self.Cursor := crSQLWait;
-    Recursiva(edtDiretorio.Text, cbTipoArquivo.Text);
+    Recursiva(edtDiretorio.Text, cbTipoArquivo.Text, edtDiretorioMoni.Text);
     Self.Cursor := crDefault;
     TThread.Synchronize(TThread.CurrentThread,
     procedure
@@ -121,7 +126,7 @@ begin
   end;
 end;
 
-procedure TForm1.Recursiva(diretorio, tipoArquivo: string);
+procedure TForm1.Recursiva(diretorio, tipoArquivo, diretorioMonitorado: string);
 var
   F: TSearchRec;
   Ret: Integer;
@@ -143,25 +148,23 @@ begin
       end;
       if (F.Attr and faDirectory) <> 0 then
       begin
-        Recursiva(IncludeTrailingPathDelimiter(diretorio + '\' + F.Name), tipoArquivo);
+        Recursiva(IncludeTrailingPathDelimiter(diretorio + '\' + F.Name), tipoArquivo, diretorioMonitorado);
       end
       else
       begin
         if (Pos('.'+tipoArquivo, F.Name) > 0) then
         begin
-          TThread.Synchronize(TThread.CurrentThread,
-          procedure
-          begin
-            cdsArquivos.Active := false;
-            cdsArquivos.Open;
-            cdsArquivos.Insert;
-            cdsArquivos.FieldByName('Arquivo').Text := F.Name;
-            cdsArquivos.FieldByName('Diretorio').Text := diretorio;
-            cdsArquivos.Post;
-            cdsArquivos.Active := true;
-            Application.ProcessMessages;
-            StatusBar1.Panels[0].Text := 'Registros: ('+intToStr(cdsArquivos.RecordCount)+')';
-          end);
+         if (diretorioMonitorado <> '') then
+         BEGIN
+           if (pos(diretorioMonitorado, diretorio) > 0) then
+           begin
+             TratarArquivo(f, diretorio);
+           end;
+         END
+         else
+         begin
+           TratarArquivo(f, diretorio);
+         end;
         end;
       end;
       Ret := FindNext(F);
@@ -169,6 +172,23 @@ begin
   finally
     FindClose(F);
   end;
+end;
+
+procedure TForm1.TratarArquivo(f: TSearchRec; diretorio: string);
+begin
+   TThread.Synchronize(TThread.CurrentThread,
+   procedure
+   begin
+     cdsArquivos.Active := false;
+     cdsArquivos.Open;
+     cdsArquivos.Insert;
+     cdsArquivos.FieldByName('Arquivo').Text := F.Name;
+     cdsArquivos.FieldByName('Diretorio').Text := diretorio;
+     cdsArquivos.Post;
+     cdsArquivos.Active := true;
+     Application.ProcessMessages;
+     StatusBar1.Panels[0].Text := 'Registros: ('+intToStr(cdsArquivos.RecordCount)+')';
+   end);
 end;
 
 end.

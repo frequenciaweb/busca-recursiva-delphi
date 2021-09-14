@@ -20,13 +20,11 @@ object Form1: TForm1
     Height = 49
     Align = alTop
     TabOrder = 0
-    ExplicitLeft = -16
-    ExplicitTop = -3
     object edtDiretorio: TEdit
       AlignWithMargins = True
-      Left = 4
+      Left = 189
       Top = 4
-      Width = 711
+      Width = 526
       Height = 41
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -37,7 +35,8 @@ object Form1: TForm1
       ParentFont = False
       TabOrder = 0
       Text = 'D:\'
-      ExplicitWidth = 958
+      ExplicitLeft = 4
+      ExplicitWidth = 711
       ExplicitHeight = 33
     end
     object cbTipoArquivo: TComboBox
@@ -68,7 +67,6 @@ object Form1: TForm1
         'pas'
         'dpr'
         'dfm')
-      ExplicitLeft = 817
     end
     object Panel2: TPanel
       AlignWithMargins = True
@@ -96,7 +94,6 @@ object Form1: TForm1
         TabOrder = 0
         Visible = False
         OnClick = btnCancelarClick
-        ExplicitLeft = 84
       end
       object btnBuscar: TButton
         AlignWithMargins = True
@@ -108,9 +105,6 @@ object Form1: TForm1
         Caption = 'Buscar'
         TabOrder = 1
         OnClick = btnBuscarClick
-        ExplicitLeft = 968
-        ExplicitTop = 5
-        ExplicitHeight = 41
       end
       object btnExportar: TButton
         AlignWithMargins = True
@@ -129,9 +123,24 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 2
         OnClick = btnExportarClick
-        ExplicitLeft = 107
-        ExplicitTop = 7
       end
+    end
+    object Panel5: TPanel
+      Left = 1
+      Top = 1
+      Width = 185
+      Height = 47
+      Align = alLeft
+      Caption = 'Diret'#243'rio'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+      ExplicitLeft = 9
+      ExplicitTop = 2
     end
   end
   object StatusBar1: TStatusBar
@@ -151,16 +160,13 @@ object Form1: TForm1
       item
         Width = 200
       end>
-    ExplicitLeft = 672
-    ExplicitTop = 496
-    ExplicitWidth = 0
   end
   object DBGrid1: TDBGrid
     AlignWithMargins = True
     Left = 3
-    Top = 52
+    Top = 101
     Width = 1052
-    Height = 602
+    Height = 553
     Align = alClient
     DataSource = dsArquivos
     TabOrder = 2
@@ -173,20 +179,63 @@ object Form1: TForm1
       item
         Expanded = False
         FieldName = 'Arquivo'
-        Width = 292
+        Width = 373
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'Diretorio'
-        Title.Caption = 'Diret'#243'rio'
-        Width = 750
+        Width = 656
         Visible = True
       end>
   end
+  object Panel3: TPanel
+    Left = 0
+    Top = 49
+    Width = 1058
+    Height = 49
+    Align = alTop
+    TabOrder = 3
+    ExplicitTop = 8
+    object edtDiretorioMoni: TEdit
+      AlignWithMargins = True
+      Left = 189
+      Top = 4
+      Width = 865
+      Height = 41
+      Align = alClient
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      ExplicitLeft = 56
+      ExplicitWidth = 998
+    end
+    object Panel4: TPanel
+      Left = 1
+      Top = 1
+      Width = 185
+      Height = 47
+      Align = alLeft
+      Caption = 'Pasta Monitorada'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      ExplicitLeft = 96
+      ExplicitTop = 8
+      ExplicitHeight = 41
+    end
+  end
   object dsArquivos: TDataSource
     DataSet = cdsArquivos
-    Left = 368
+    Left = 256
     Top = 296
   end
   object cdsArquivos: TClientDataSet
@@ -197,7 +246,7 @@ object Form1: TForm1
     Active = True
     Aggregates = <>
     Params = <>
-    Left = 440
+    Left = 328
     Top = 296
     object cdsArquivosDiretorio: TStringField
       FieldName = 'Diretorio'
@@ -210,7 +259,7 @@ object Form1: TForm1
   end
   object SaveDialog1: TSaveDialog
     Filter = '*.csv|Arquivo CSV'
-    Left = 512
+    Left = 408
     Top = 296
   end
 end
