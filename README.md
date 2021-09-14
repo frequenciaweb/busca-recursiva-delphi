@@ -1,6 +1,14 @@
 ﻿# busca-recursiva-delphi
 
+## Prints
+
+![Alt text](/../main/printscreen/Captura01.PNG?raw=true "Exemplo")
+![Alt text](/../main/printscreen/Captura02.PNG?raw=true "Exemplo")
+
+
 ## Usage
+
+
 
 ```
 procedure TForm1.Recursiva(diretorio, tipoArquivo: string);
